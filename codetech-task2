@@ -1,0 +1,101 @@
+/*This program is a **Student Grade Manager** that allows users to add, edit, and analyze student grades, 
+calculate GPA, and generate performance reports with persistent data storage.*/
+
+
+import json
+# File to store grades
+FILENAME = "grades.json"
+def save_grades(grades):
+    """Save grades to a JSON file."""
+    with open(FILENAME, "w") as file:
+        json.dump(grades, file)
+    print("Grades saved successfully.")
+
+def load_grades():
+    """Load grades from a JSON file."""
+    try:
+        with open(FILENAME, "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+
+def calculate_letter_grade(average):
+    """Determine the letter grade based on the average score."""
+    if average >= 90:
+        return 'A', 4.0
+    elif average >= 80:
+        return 'B', 3.0
+    elif average >= 70:
+        return 'C', 2.0
+    elif average >= 60:
+        return 'D', 1.0
+    else:
+        return 'F', 0.0
+
+def display_grades(grades):
+    """Display the grades for each subject."""
+    print("\nGrades by Subject:")
+    for subject, grade in grades.items():
+        print(f"  {subject}: {grade}")
+
+def generate_report(grades):
+    """Generate a detailed performance report."""
+    if not grades:
+        print("No grades available for reporting.")
+        return
+
+    highest = max(grades.items(), key=lambda x: x[1])
+    lowest = min(grades.items(), key=lambda x: x[1])
+    average = sum(grades.values()) / len(grades)
+
+    print("\nPerformance Report:")
+    print(f"Highest Grade: {highest[1]} in {highest[0]}")
+    print(f"Lowest Grade: {lowest[1]} in {lowest[0]}")
+    print(f"Overall Average: {average:.2f}")
+    letter, gpa = calculate_letter_grade(average)
+    print(f"Letter Grade: {letter}")
+    print(f"GPA: {gpa:.2f}")
+
+def main():
+    print("=== Student Grade Manager ===")
+    grades = load_grades()
+    
+    while True:
+        print("\nOptions:")
+        print("1. Add/Edit a grade")
+        print("2. Display all grades")
+        print("3. Generate performance report")
+        print("4. Save and Exit")
+        choice = input("Enter your choice (1/2/3/4): ")
+
+        if choice == '1':
+            # Add/Edit a grade
+            subject = input("Enter the subject name: ").strip()
+            try:
+                grade = float(input(f"Enter the grade for {subject} (0-100): "))
+                if 0 <= grade <= 100:
+                    grades[subject] = grade
+                    print(f"Grade for {subject} updated to {grade}.")
+                else:
+                    print("Error: Grade must be between 0 and 100.")
+            except ValueError:
+                print("Error: Please enter a valid number.")
+        elif choice == '2':
+            # Display all grades
+            if not grades:
+                print("No grades available to display.")
+            else:
+                display_grades(grades)
+        elif choice == '3':
+            # Generate performance report
+            generate_report(grades)
+        elif choice == '4':
+            # Save and Exit
+            save_grades(grades)
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please select 1, 2, 3, or 4.")
+
+if __name__ == "__main__":
+    main()
