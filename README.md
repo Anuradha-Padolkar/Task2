@@ -2,7 +2,7 @@ Company: CODETECH IT SOLUTIONS
 ID: CT6WDS2401 
 Domain: Python Programming 
 Duration: November 20th,2024 to January 5th,2025
-Mentor:
+
 
 Overview of the Project
 Project:STUDENT GRADE TRACKER
