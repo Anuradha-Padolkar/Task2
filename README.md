@@ -73,7 +73,7 @@ Purpose: Stores the calculated letter grade (e.g., A, B, C) based on the average
 Purpose: Stores the GPA equivalent of the average grade.
 
 
-"C:\Users\DELL\Pictures\Screenshots\task2 output.png"
+
 
 
 
